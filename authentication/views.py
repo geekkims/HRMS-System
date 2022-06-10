@@ -4,20 +4,20 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from authentication.decorators import unauthenticated_user, allowed_users, admin_only
 
 
 # Create your views here.
 
 
 @login_required(login_url='signin')
+@admin_only
 def home(request):
     return render(request,"authentication/index.html")
 
-def signup(request):
-    if request.user.is_authenticated:
-        return redirect('hrms/admin/dashboard.html')
-    else:
 
+@unauthenticated_user
+def signup(request):
         if request.method == "POST":
             # username =request.POST.get('username')
             username =request.POST['username']
@@ -37,19 +37,10 @@ def signup(request):
             messages.success(request, "Your Acc has been successfully created.")
 
             return redirect('signin')
+        return render(request,"authentication/signup.html")
 
-
-
-
-    return render(request,"authentication/signup.html")
-
+@unauthenticated_user
 def signin(request):
-
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-    
-
         if request.method == "POST":
             username = request.POST['username']
             pass1 = request.POST['pass1']
@@ -63,7 +54,7 @@ def signin(request):
 
             else:
                 messages.error(request, "Incorrect Credentials")
-                return render(request,"authentication/index.html")
+                return redirect('home')
         return render(request,"authentication/signin.html")
 
 def resetpassword(request):
