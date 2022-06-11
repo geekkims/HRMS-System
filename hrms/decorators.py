@@ -8,7 +8,7 @@ from hrms import views
 def unauthenticated_user(view_func):
     def wrapper_func(request, *args,**kwargs):
         if request.user.is_authenticated:
-            return redirect('home')
+            return redirect('employee_dashboard')
         else:
             return view_func(request, *args,**kwargs)
 

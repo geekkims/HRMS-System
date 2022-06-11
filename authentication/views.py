@@ -10,10 +10,7 @@ from authentication.decorators import unauthenticated_user, allowed_users, admin
 # Create your views here.
 
 
-@login_required(login_url='signin')
-@admin_only
-def home(request):
-    return render(request,"authentication/index.html")
+
 
 
 @unauthenticated_user
