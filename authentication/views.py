@@ -9,7 +9,9 @@ from authentication.decorators import unauthenticated_user, allowed_users, admin
 
 # Create your views here.
 
-
+@login_required(login_url='signin')
+def home(request):
+    return render(request,"hrms/admin/dashboard.html")
 
 
 

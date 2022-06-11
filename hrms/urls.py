@@ -3,8 +3,17 @@ from django.urls import include, path
 
 urlpatterns = [
 
-      path('',views.home, name="home"),
+     # Admin Functions
+
      path('admin/',views.admin_dashboard, name="admin_dashboard"),
+     path('employees-details/',views.employees_details, name="employees_details"),
+
+
+
+
+
+
+     # Employee Dashboard
      path('user/',views.employee_dashboard, name="employee_dashboard"),
 
 
