@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from hrms.decorators import admin_only, allowed_users, unauthenticated_user
+from django.views.generic import FormView, CreateView
+from hrms.forms import EmployeeForm
+from hrms.models import EmployeeDetail
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 
@@ -32,12 +37,19 @@ def employee_dashboard(request):
     return render(request,"hrms/employee/dashboard.html")
 
 
-def add_employee(request):
-    return render(request,"hrms/admin/add-employee.html")
+
   
 
 
+# Employee's Controller
 
+
+class Employee_New(LoginRequiredMixin,CreateView):
+    model = EmployeeDetail  
+    form_class = EmployeeForm  
+    template_name = 'hrms/admin/add-employee.html'
+    login_url = 'authentication:signin'
+    redirect_field_name = 'redirect:'
     
 
     
