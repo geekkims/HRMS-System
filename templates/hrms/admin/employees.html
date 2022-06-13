@@ -25,7 +25,7 @@
 					<thead>
 						<tr>
 							<th>
-								Thumbnail
+								Payroll Number
 							</th>
 							<th>
 								First name
@@ -34,7 +34,19 @@
 								Last name
 							</th>
 							<th>
+								ID Number
+							</th>
+							<th>
 								Telephone
+							</th>
+							<th>
+								NHIF
+							</th>
+							<th>
+								NSSF
+							</th>
+							<th>
+								KRA PIN
 							</th>
 							<th>
 								E-mail
@@ -45,43 +57,38 @@
 						</tr>
 					</thead>
 					<tbody>
-						{% for employeedetails  in employee %}
+						{% for employee  in employees %}
 						<tr>
 							<td class="font-weight-medium">
-								<img src="{{employeedetails.thumb.url}}" class='rounded img-fluid' alt="">
+								{{employee.empcode}}
 							</td>
 							<td>
-								{{employeedetails.first_name}}
+								{{employee.first_name}}
 							</td>
 							<td>
-								{{employeedetails.last_name}}
+								{{employee.last_name}}
 							</td>
 							<td>
-								{{employeedetails.mobile}}
+								{{employee.idnumber}}
+							</td>
+							<td>
+								{{employee.mobile}}
+							</td>
+							<td>
+								{{employee.nhif}}
+							</td>
+							<td>
+								{{employee.nssf}}
+							</td>
+							<td>
+								{{employee.krapin}}
 							</td>
 							<td class="text-danger">
-								{{employeedetails.email}}
+								{{employee.workemail}}
 							</td>
 							<td>
 
-								<div class="btn-group dropdown">
-									<button type="button" class="btn btn-success dropdown-toggle btn-rounded btn-sm"
-										data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="fa fa-cog "></i> Manage
-									</button>
-									<div class="dropdown-menu">
-										<a class="dropdown-item"
-											href="{% url 'hrms:EmployeeDetail_view' pk=EmployeeDetail.pk %}">
-											<i class="fa fa-eye text-success fa-fw"></i>View</a>
-										<a class="dropdown-item"
-											href="{% url 'hrms:EmployeeDetail_update' pk=EmployeeDetail.pk %}">
-											<i class="fa fa-edit text-info fa-fw"></i>Edit</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item"
-											href="{% url 'hrms:EmployeeDetail_delete' pk=EmployeeDetail.pk %}">
-											<i class="fa fa-trash text-danger fa-fw"></i>Delete</a>
-									</div>
-								</div>
+						
 							</td>
 						</tr>
 						{% endfor %}
