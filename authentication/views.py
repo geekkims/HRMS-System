@@ -33,6 +33,8 @@ def signup(request):
 
             myuser.save()
 
+            
+
             messages.success(request, "Your Acc has been successfully created.")
 
             return redirect('signin')

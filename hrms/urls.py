@@ -7,6 +7,8 @@ urlpatterns = [
 
      path('admin/',views.admin_dashboard, name="admin_dashboard"),
      path('employees-details/',views.employees_details, name="employees_details"),
+     path('add-employee/',views.add_employee, name="add_employee"),
+
 
 
 
