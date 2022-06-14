@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} Attendance {% endblock title %}
+{% load static %}
+{% block content %}
+
+<section class="container">
+    <div class="row mt-5">
+      <div class="col-lg-8 offset-lg-2">
+      <div class="text-center mb-2">
+        <img src=" {% static 'hrms/images/logo.png' %} " alt="">
+      </div>
+        <p class="lead text-center">Candidate Application Form</p><hr>
+        <div class="card">
+          <div class="card-body">
+            <form action="" method="POST" class="form-group">
+            {% csrf_token %}
+              {{form.as_p}}
+              <div>
+                <button class="btn btn-block btn-success">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>  
+    </div>
+  </section>
+
+        {% endblock content %}

@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from hrms.decorators import admin_only, allowed_users, unauthenticated_user
 from django.views.generic import FormView, CreateView, ListView, DetailView, UpdateView, DeleteView
-from hrms.forms import AttendanceForm, DepartmentForm, EmployeeForm, KinForm, LeaveForm
-from hrms.models import Attendance, Department, EmployeeDetail, Kin, Leave
+from hrms.forms import AttendanceForm, DepartmentForm, EmployeeForm, KinForm, LeaveForm, RecruitmentForm
+from hrms.models import Attendance, Department, EmployeeDetail, Kin, Leave, Recruitment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
@@ -169,3 +169,24 @@ class Department_Update(LoginRequiredMixin,UpdateView):
     form_class = DepartmentForm
     login_url = 'hrms:login'
     success_url = reverse_lazy('hrms:attendance_new')
+
+
+
+class RecruitmentNew (CreateView):
+    model = Recruitment
+    template_name = 'hrms/recruitment/index.html'
+    form_class = RecruitmentForm
+    success_url = reverse_lazy('hrms:recruitment')
+
+class RecruitmentAll(LoginRequiredMixin,ListView):
+    model = Recruitment
+    login_url = 'hrms:login'
+    template_name = 'hrms/recruitment/all.html'
+    context_object_name = 'recruit'
+
+class RecruitmentDelete (LoginRequiredMixin,View):
+    login_url = 'hrms:login'
+    def get (self, request,pk):
+     form_app = Recruitment.objects.get(pk=pk)
+     form_app.delete()
+     return redirect('hrms:recruitmentall', permanent=True)

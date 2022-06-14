@@ -1,7 +1,7 @@
 from unicodedata import name
 from django import forms
 import time
-from hrms.models import Attendance, Department, EmployeeDetail, Kin, Leave
+from hrms.models import Attendance, Department, EmployeeDetail, Kin, Leave, Recruitment
 from django.db.models import Q
 from django.utils import timezone
 
@@ -77,7 +77,17 @@ class DepartmentForm(forms.ModelForm):
         fields = '__all__'
 
 
-
+class RecruitmentForm(forms.ModelForm):
+    class Meta:
+        model=Recruitment
+        fields = '__all__'
+        widgets = {
+            'first_name':forms.TextInput(attrs={'class':'form-control'}),
+            'last_name':forms.TextInput(attrs={'class':'form-control'}),
+            'position':forms.TextInput(attrs={'class':'form-control'}),
+            'email':forms.EmailInput(attrs={'class':'form-control'}),
+            'phone':forms.TextInput(attrs={'class':'form-control'}),
+        }
 
 
 class LeaveForm (forms.ModelForm):
