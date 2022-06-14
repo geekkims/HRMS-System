@@ -87,6 +87,22 @@
 								{{employee.workemail}}
 							</td>
 							<td>
+								<div class="btn-group dropdown">
+									<button type="button" class="btn btn-success dropdown-toggle btn-rounded btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									 <i class="fa fa-cog "></i> Manage
+									</button>
+									<div class="dropdown-menu">
+									  <a class="dropdown-item" href="{% url 'hrms:employee_view' pk=employee.pk %}">
+										<i class="fa fa-eye text-success fa-fw"></i>View</a>
+									  <a class="dropdown-item" href="{% url 'hrms:employee_update' pk=employee.pk %}">
+										<i class="fa fa-edit text-info fa-fw"></i>Edit</a>
+									  <div class="dropdown-divider"></div>
+									  <a class="dropdown-item" href="{% url 'hrms:employee_delete' pk=employee.pk %}">
+										<i class="fa fa-trash text-danger fa-fw"></i>Delete</a>
+									</div>
+								  </div>                  
+								</td>
+							  </tr>
 
 						
 							</td>

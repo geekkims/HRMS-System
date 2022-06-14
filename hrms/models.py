@@ -64,10 +64,8 @@ class Kin(models.Model):
     occupation = models.CharField(max_length=20)
     mobile = models.CharField(max_length=15)
     employee = models.OneToOneField(EmployeeDetail,on_delete=models.CASCADE, blank=False, null=False)
-
     def __str__(self):
         return self.first_name+'-'+self.last_name
-
     def get_absolute_url(self):
         return reverse("hrms:employee_dashboard")
 
@@ -84,5 +82,20 @@ class Leave (models.Model):
         return self.employee + ' ' + self.start
 
 
+
+class Attendance (models.Model):
+    STATUS = (('PRESENT', 'PRESENT'), ('ABSENT', 'ABSENT'),('UNAVAILABLE', 'UNAVAILABLE'))
+    date = models.DateField(auto_now_add=True)
+    first_in = models.TimeField()
+    last_out = models.TimeField(null=True)
+    status = models.CharField(choices=STATUS, max_length=15 )
+    staff = models.ForeignKey(EmployeeDetail, on_delete=models.SET_NULL, null=True)
+
+    def save(self,*args, **kwargs):
+        self.first_in = timezone.localtime()
+        super(Attendance,self).save(*args, **kwargs)
+    
+    def __str__(self):
+        return 'Attendance -> '+str(self.date) + ' -> ' + str(self.staff)
 
 

@@ -1,7 +1,11 @@
 from unicodedata import name
 from django import forms
+import time
+from hrms.models import Attendance, Department, EmployeeDetail, Kin
+from django.db.models import Q
+from django.utils import timezone
 
-from hrms.models import Department, EmployeeDetail
+
 
 
 # Add Employee Form
@@ -36,3 +40,29 @@ class EmployeeForm (forms.ModelForm):
         model = EmployeeDetail
         fields = ('first_name','last_name','empcode' ,'joiningdate','mobile','personalemail','workemail','emergency','gender','department','nhif','nssf','krapin','idnumber', 'address','thumb','bank','bankbranch','acnumber','hudumanumber')
        
+
+# Kin Update Details
+
+
+class KinForm(forms.ModelForm):
+
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    address = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
+    occupation = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    mobile = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    employee = forms.ModelChoiceField(EmployeeDetail.objects.filter(kin__employee=None),required=False,widget=forms.Select(attrs={'class':'form-control'}))
+
+    class Meta:
+        model = Kin
+        fields = '__all__'
+
+
+
+
+class AttendanceForm(forms.ModelForm):
+    status = forms.ChoiceField(choices=Attendance.STATUS,widget=forms.Select(attrs={'class':'form-control w-50'}))
+    staff = forms.ModelChoiceField(EmployeeDetail.objects.filter(Q(attendance__status=None) | ~Q(attendance__date = timezone.localdate())), widget=forms.Select(attrs={'class':'form-control w-50'}))
+    class Meta:
+        model = Attendance
+        fields = ['status','staff']
