@@ -83,6 +83,28 @@ class Leave (models.Model):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
 class Attendance (models.Model):
     STATUS = (('PRESENT', 'PRESENT'), ('ABSENT', 'ABSENT'),('UNAVAILABLE', 'UNAVAILABLE'))
     date = models.DateField(auto_now_add=True)

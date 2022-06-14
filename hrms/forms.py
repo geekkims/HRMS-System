@@ -59,7 +59,6 @@ class KinForm(forms.ModelForm):
 
 
 
-
 class AttendanceForm(forms.ModelForm):
     status = forms.ChoiceField(choices=Attendance.STATUS,widget=forms.Select(attrs={'class':'form-control w-50'}))
     staff = forms.ModelChoiceField(EmployeeDetail.objects.filter(Q(attendance__status=None) | ~Q(attendance__date = timezone.localdate())), widget=forms.Select(attrs={'class':'form-control w-50'}))
