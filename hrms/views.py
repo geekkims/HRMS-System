@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from hrms.decorators import admin_only, allowed_users, unauthenticated_user
 from django.views.generic import FormView, CreateView, ListView, DetailView, UpdateView, DeleteView
-from hrms.forms import AttendanceForm, EmployeeForm, KinForm
-from hrms.models import Attendance, EmployeeDetail, Kin
+from hrms.forms import AttendanceForm, DepartmentForm, EmployeeForm, KinForm, LeaveForm
+from hrms.models import Attendance, Department, EmployeeDetail, Kin, Leave
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
@@ -112,7 +112,7 @@ class Attendance_New (LoginRequiredMixin,CreateView):
         pstaff = Attendance.objects.filter(Q(status='PRESENT') & Q (date=timezone.localdate())) 
         context['present_staffers'] = pstaff
         return context
-        
+
 
 class Attendance_Out(LoginRequiredMixin,View):
     login_url = 'hrms:login'
@@ -124,5 +124,48 @@ class Attendance_Out(LoginRequiredMixin,View):
        user.save()
        return redirect('hrms:attendance_new')   
 
-    
 
+
+
+
+class LeaveNew (LoginRequiredMixin,CreateView, ListView):
+    model = Leave
+    template_name = 'hrms/leave/create.html'
+    form_class = LeaveForm
+    login_url = 'hrms:login'
+    success_url = reverse_lazy('hrms:leave_new')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["leaves"] = Leave.objects.all()
+        return context
+
+
+#Department views
+
+class Department_Detail(LoginRequiredMixin, ListView):
+    context_object_name = 'employees'
+    template_name = 'hrms/department/single.html'
+    login_url = 'hrms:login'
+    def get_queryset(self): 
+        queryset = EmployeeDetail.objects.filter(department=self.kwargs['pk'])
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["dept"] = Department.objects.get(pk=self.kwargs['pk']) 
+        return context
+    
+class Department_New (LoginRequiredMixin,CreateView):
+    model = Department
+    template_name = 'hrms/department/create.html'
+    form_class = DepartmentForm
+    login_url = 'hrms:login'
+    success_url = reverse_lazy('hrms:attendance_new')
+
+class Department_Update(LoginRequiredMixin,UpdateView):
+    model = Department
+    template_name = 'hrms/department/edit.html'
+    form_class = DepartmentForm
+    login_url = 'hrms:login'
+    success_url = reverse_lazy('hrms:attendance_new')

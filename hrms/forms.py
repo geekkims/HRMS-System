@@ -1,7 +1,7 @@
 from unicodedata import name
 from django import forms
 import time
-from hrms.models import Attendance, Department, EmployeeDetail, Kin
+from hrms.models import Attendance, Department, EmployeeDetail, Kin, Leave
 from django.db.models import Q
 from django.utils import timezone
 
@@ -65,3 +65,33 @@ class AttendanceForm(forms.ModelForm):
     class Meta:
         model = Attendance
         fields = ['status','staff']
+
+
+
+class DepartmentForm(forms.ModelForm):
+    name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Department Name'}))
+    history = forms.CharField(max_length=1000, widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Brief Department History'}))
+    
+    class Meta:
+        model = Department
+        fields = '__all__'
+
+
+
+
+
+class LeaveForm (forms.ModelForm):
+
+    class Meta:
+        model = Leave
+        fields = '__all__'
+
+        widgets={
+            'start': forms.DateInput(attrs={'class':'form-control','type':'date'}),
+            'end': forms.DateInput(attrs={'class':'form-control','type':'date'}),
+            'status':forms.Select(attrs={'class':'form-control'}),
+            'employee':forms.Select(attrs={'class':'form-control'}),
+
+
+
+        }
